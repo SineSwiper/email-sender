@@ -1,5 +1,5 @@
 package Email::Sender::Transport::Sendmail;
-use Moose;
+use Moo;
 with 'Email::Sender::Transport';
 # ABSTRACT: send mail via sendmail(1)
 
@@ -17,10 +17,11 @@ To specify the location of sendmail:
 =cut
 
 use File::Spec ();
+use MooX::Types::MooseLike::Base qw(Str);
 
 has 'sendmail' => (
-  is  => 'ro',
-  isa => 'Str',
+  is       => 'ro',
+  isa      => Str,
   required => 1,
   lazy     => 1,
   default  => sub {
@@ -91,6 +92,4 @@ sub send_email {
   return $self->success;
 }
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
 1;

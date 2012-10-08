@@ -1,5 +1,5 @@
 package Email::Sender::Failure;
-use Moose;
+use Moo;
 extends 'Throwable::Error';
 # ABSTRACT: a report of failure from an email sending transport
 
@@ -25,8 +25,11 @@ This returns a list of addresses to which the email could not be sent.
 
 =cut
 
+use MooX::Types::MooseLike::Base qw(ArrayRef);
+
+### FIXME: Moose traits to Moo ??? ###
 has recipients => (
-  isa     => 'ArrayRef',
+  isa     => ArrayRef,
   traits  => [ 'Array' ],
   handles => { __recipients => 'elements' },
   default => sub {  []  },
@@ -75,6 +78,4 @@ sub BUILD {
 
 =cut
 
-__PACKAGE__->meta->make_immutable(inline_constructor => 0);
-no Moose;
 1;

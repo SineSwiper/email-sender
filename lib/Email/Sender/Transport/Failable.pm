@@ -1,5 +1,5 @@
 package Email::Sender::Transport::Failable;
-use Moose;
+use Moo;
 extends 'Email::Sender::Transport::Wrapper';
 # ABSTRACT: a wrapper to makes things fail predictably
 
@@ -20,8 +20,11 @@ If any coderef returns a true value, the value will be used to signal failure.
 
 =cut
 
+use MooX::Types::MooseLike::Base qw(ArrayRef);
+
+### FIXME: Moose traits to Moo ??? ###
 has 'failure_conditions' => (
-  isa => 'ArrayRef',
+  isa     => ArrayRef,
   default => sub { [] },
   traits  => [ 'Array' ],
   handles => {
@@ -43,6 +46,4 @@ around send_email => sub {
   return $self->$orig($email, $env, @rest);
 };
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
 1;

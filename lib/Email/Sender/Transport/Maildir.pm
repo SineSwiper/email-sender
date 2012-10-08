@@ -1,5 +1,5 @@
 package Email::Sender::Transport::Maildir;
-use Moose;
+use Moo;
 with 'Email::Sender::Transport';
 # ABSTRACT: deliver mail to a maildir on disk
 
@@ -54,14 +54,17 @@ sub _hostname { $HOSTNAME }
 my $MAILDIR_TIME    = 0;
 my $MAILDIR_COUNTER = 0;
 
+use MooX::Types::MooseLike::Base qw(Bool);
+
+### FIXME: Is this legal in Moo? ###
 has [ qw(add_lines_header add_envelope_headers) ] => (
-  is  => 'ro',
-  isa => 'Bool',
+  is      => 'ro',
+  isa     => Bool,
   default => 1,
 );
 
 has dir => (
-  is  => 'ro',
+  is       => 'ro',
   required => 1,
   default  => sub { File::Spec->catdir(File::Spec->curdir, 'Maildir') },
 );
@@ -162,6 +165,4 @@ sub _delivery_fh {
   return ($filename, $fh);
 }
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
 1;

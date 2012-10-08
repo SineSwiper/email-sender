@@ -1,12 +1,14 @@
 package Test::Email::SMTPRig;
-use Moose;
+use Moo;
+
+use MooX::Types::MooseLike::Base qw(Int HashRef);
 
 has 'smtp_host' => (is => 'ro', required => 1);
 has 'smtp_ssl'  => (is => 'ro', default  => 0);
 
 has 'smtp_port' => (
-  is  => 'ro',
-  isa => 'Int',
+  is      => 'ro',
+  isa     => Int,
   lazy    => 1,
   default => sub { return $_[0]->ssl ? 465 : 25; },
 );
@@ -60,11 +62,9 @@ sub BUILD {
 
 
 has 'plan' => (
-  is  => 'ro',
-  isa => 'HashRef',
+  is       => 'ro',
+  isa      => HashRef,
   required => 1,
 );
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
 1;

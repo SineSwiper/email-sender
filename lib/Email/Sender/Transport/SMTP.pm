@@ -1,5 +1,5 @@
 package Email::Sender::Transport::SMTP;
-use Moose 0.90;
+use Moo;
 # ABSTRACT: send email over SMTP
 
 use Email::Sender::Failure::Multi;
@@ -31,16 +31,18 @@ The following attributes may be passed to the constructor:
 
 =cut
 
-has host => (is => 'ro', isa => 'Str',  default => 'localhost');
-has ssl  => (is => 'ro', isa => 'Bool', default => 0);
+use MooX::Types::MooseLike::Base qw(Str Bool Int);
+
+has host => (is => 'ro', isa => Str,  default => 'localhost');
+has ssl  => (is => 'ro', isa => Bool, default => 0);
 has port => (
-  is  => 'ro',
-  isa => 'Int',
+  is      => 'ro',
+  isa     => Int,
   lazy    => 1,
   default => sub { return $_[0]->ssl ? 465 : 25; },
 );
 
-has timeout => (is => 'ro', isa => 'Int', default => 120);
+has timeout => (is => 'ro', isa => Int, default => 120);
 
 =item C<sasl_username>: the username to use for auth; optional
 
@@ -50,10 +52,10 @@ has timeout => (is => 'ro', isa => 'Int', default => 120);
 
 =cut
 
-has sasl_username => (is => 'ro', isa => 'Str');
-has sasl_password => (is => 'ro', isa => 'Str');
+has sasl_username => (is => 'ro', isa => Str);
+has sasl_password => (is => 'ro', isa => Str);
 
-has allow_partial_success => (is => 'ro', isa => 'Bool', default => 0);
+has allow_partial_success => (is => 'ro', isa => Bool, default => 0);
 
 =item C<helo>: what to say when saying HELO; no default
 
@@ -65,9 +67,9 @@ has allow_partial_success => (is => 'ro', isa => 'Bool', default => 0);
 
 =cut
 
-has helo      => (is => 'ro', isa => 'Str');
+has helo      => (is => 'ro', isa => Str);
 has localaddr => (is => 'ro');
-has localport => (is => 'ro', isa => 'Int');
+has localport => (is => 'ro', isa => Int);
 
 # I am basically -sure- that this is wrong, but sending hundreds of millions of
 # messages has shown that it is right enough.  I will try to make it textbook
@@ -241,6 +243,5 @@ documentation.
 =cut
 
 with 'Email::Sender::Transport';
-__PACKAGE__->meta->make_immutable;
-no Moose;
+
 1;

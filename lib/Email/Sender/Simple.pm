@@ -1,5 +1,5 @@
 package Email::Sender::Simple;
-use Moose;
+use Moo;
 with 'Email::Sender::Role::CommonSending';
 # ABSTRACT: the simple interface for sending mail with Sender
 
@@ -158,5 +158,4 @@ sub _get_to_from {
   return ($to, $from);
 }
 
-no Moose;
 "220 OK";

@@ -1,5 +1,5 @@
 package Email::Sender::Role::CommonSending;
-use Moose::Role;
+use Moo::Role;
 # ABSTRACT: the common sending tasks most Email::Sender classes will need
 
 use Carp;
@@ -111,5 +111,4 @@ sub success {
   my $success = Email::Sender::Success->new(@_);
 }
 
-no Moose::Role;
 1;

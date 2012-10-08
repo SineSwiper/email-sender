@@ -1,5 +1,5 @@
 package Email::Sender::Transport::Test;
-use Moose;
+use Moo;
 # ABSTRACT: deliver mail in memory for testing
 
 use Email::Sender::Failure::Multi;
@@ -54,13 +54,16 @@ A number of methods related to this attribute are provided:
 
 =cut
 
-has allow_partial_success => (is => 'ro', isa => 'Bool', default => 0);
+use MooX::Types::MooseLike::Base qw(Bool ArrayRef);
+
+has allow_partial_success => (is => 'ro', isa => Bool, default => 0);
 
 sub recipient_failure { }
 sub delivery_failure  { }
 
+### FIXME: Moose traits to Moo ??? ###
 has deliveries => (
-  isa => 'ArrayRef',
+  isa        => ArrayRef,
   traits     => [ 'Array' ],
   init_arg   => undef,
   default    => sub { [] },
@@ -124,6 +127,5 @@ sub send_email {
 }
 
 with 'Email::Sender::Transport';
-__PACKAGE__->meta->make_immutable;
-no Moose;
+
 1;
